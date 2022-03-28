@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>TO-DO list</title>
+</head>
+
+<body>
+    <div>
+        <h1 class="text-center block text-red-600 my-10 font-bold text-2xl">TO-DO List</h1>
+        <ul id="box" class="block mx-auto ">
+        </ul>
+        <ul id="error" class="text-red-600"></ul>
+        <input type="text" id="name" class="block w-10/12 border-2 rounded-xl p-4 border-red-600 mt-8 mx-auto">
+    </div>
+    <button onclick="Addmore()" class="bg-red-600 text-white rounded-xl p-4 mx-auto block my-16">Add</button>
+
+    <script>
+
+        document.onkeydown = function (e) {
+            if (e.keyCode == 13) {
+                alert('Adding element');
+                // return false;
+                Addmore();
+            }
+        }
+
+        function Addmore() {
+
+            document.getElementById('error').innerHTML = "";
+
+            let name = document.getElementById('name').value;
+            if (name == '') {
+                document.getElementById('error').innerHTML = "Please type in some value !!";
+            }
+            else {
+                let box = document.getElementById('box');
+                let li = document.createElement('li');
+                li.textContent = name;
+                let a = document.createElement('a');
+                a.textContent = "   x";
+                li.appendChild(a);
+
+                let pos = box.firstElementChild;
+                if (pos == null) {
+                    box.appendChild(li);
+                } else {
+                    box.insertBefore(li, pos);
+                }
+            }
+            document.getElementById('name').value = "";
+        }
+
+    </script>
+</body>
+
+</html>
