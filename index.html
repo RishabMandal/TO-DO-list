@@ -33,15 +33,17 @@
         <h1 class="block mx-3">Description :</h1>
         <textarea name="description" class="block mx-3 px-3 w-11/12 border-2 rounded-xl" id="description" cols="10"
             rows="8"></textarea>
-        <button type="submit" id="add"
-            class="block hover:bg-red-600 hover:text-white mx-auto text-center w-5/12 border-2 rounded-xl mt-3">Add to
+        <div class="md:flex-row">
+            <button type="submit" id="add"
+            class="hover:bg-red-600 hover:text-white mx-auto text-center w-36 border-2 rounded-xl mt-3">Add to
             List</button>
-        <button type="submit" id="clear"
-            class="block hover:bg-red-600 hover:text-white mx-auto text-center w-5/12 border-2 rounded-xl mt-3"
+            <button type="submit" id="clear"
+            class="hover:bg-red-600 hover:text-white mx-auto text-center w-36 border-2 rounded-xl mt-3"
             onclick="clearing()">Clear List</button>
+        </div>    
     </div>
 
-    <h1 class="block w-2/12 border-2 rounded-xl text-2xl text-center mx-auto my-4">Your items</h1>
+    <h1 class="block w-36 border-2 rounded-xl text-2xl text-center mx-auto my-4 p-1">Your items</h1>
     <table class="table">
         <thead>
             <tr>
