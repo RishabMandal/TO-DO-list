@@ -28,16 +28,20 @@
     <!-- Todolist new  -->
     <h1 class="text-center block text-red-600 mt-10 mb-5 font-bold text-2xl">TO-DO List</h1>
     <div>
-        <h1 class="block mx-3">Title</h1>
-        <input type="text" id="title" class="block mx-3 w-10/12 border-2 rounded-xl">
-        <h1 class="block mx-3">Description</h1>
-        <textarea name="description" class="block mx-3 w-10/12 border-2 rounded-xl" id="description" cols="10"
-            rows="10"></textarea>
-        <button type="submit" id="add" class="block mx-3 text-center w-10/12 border-2 rounded-xl mt-3">Add to
+        <h1 class="block mx-3">Title :</h1>
+        <input type="text" id="title" class="block mx-3 px-3 w-11/12 border-2 rounded-xl">
+        <h1 class="block mx-3">Description :</h1>
+        <textarea name="description" class="block mx-3 px-3 w-11/12 border-2 rounded-xl" id="description" cols="10"
+            rows="8"></textarea>
+        <button type="submit" id="add"
+            class="block hover:bg-red-600 hover:text-white mx-auto text-center w-5/12 border-2 rounded-xl mt-3">Add to
             List</button>
+        <button type="submit" id="clear"
+            class="block hover:bg-red-600 hover:text-white mx-auto text-center w-5/12 border-2 rounded-xl mt-3"
+            onclick="clearing()">Clear List</button>
     </div>
 
-    <h1 class="block w-10/12 border-2 rounded-xl text-2xl text-center mx-3 my-4">Your items</h1>
+    <h1 class="block w-2/12 border-2 rounded-xl text-2xl text-center mx-auto my-4">Your items</h1>
     <table class="table">
         <thead>
             <tr>
@@ -99,39 +103,69 @@
 
         //  Todolist new  
 
-        add = document.getElementById("add");
-        add.addEventListener("click", () => {
-            tit = document.getElementById("title").value;
-            desc = document.getElementById("description").value;
+        function getAndUpdate() {
+            console.log("Updating List...");
+            tit = document.getElementById('title').value;
+            desc = document.getElementById('description').value;
             if (localStorage.getItem('itemsJson') == null) {
-                itemJSONArray = [];
-                itemJSONArray.push([tit, desc]);
-                localStorage.setItem('itemsJson', JSON.stringify(itemJSONArray));
+                itemJsonArray = [];
+                itemJsonArray.push([tit, desc]);
+                localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
             }
             else {
-                itemJSONArrayStr = localStorage.getItem('itemsJson');
-                itemJSONArray = JSON.parse(itemJSONArrayStr);
-                itemJSONArray.push([tit, desc]);
-                localStorage.setItem('itemsJson', JSON.stringify(itemJSONArray));
+                itemJsonArrayStr = localStorage.getItem('itemsJson')
+                itemJsonArray = JSON.parse(itemJsonArrayStr);
+                itemJsonArray.push([tit, desc]);
+                localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
             }
+            update();
+        }
 
-            // Get information in the table
-
-            tableBody = document.getElementById('tableBody');
+        function update() {
+            if (localStorage.getItem('itemsJson') == null) {
+                itemJsonArray = [];
+                localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
+            }
+            else {
+                itemJsonArrayStr = localStorage.getItem('itemsJson')
+                itemJsonArray = JSON.parse(itemJsonArrayStr);
+            }
+            // Populate the table
+            let tableBody = document.getElementById("tableBody");
             let str = "";
-            itemJSONArray.forEach((element, index) => {
+            itemJsonArray.forEach((element, index) => {
                 str += `
-                <tr>
-                <th scope="row">${index + 1}</th>
-                <td>${element[0]}</td>
-                <td>${element[1]}</td>
-                <td><button>Delete</button></td>
-                </tr>
-                `;
+                    <tr>
+                    <th scope="row">${index + 1}</th>
+                    <td>${element[0]}</td>
+                    <td>${element[1]}</td> 
+                    <td><button class="btn btn-sm btn-primary" onclick="deleted(${index})">Delete</button></td> 
+                    </tr>`;
             });
             tableBody.innerHTML = str;
+        }
+        add = document.getElementById("add");
+        add.addEventListener("click", getAndUpdate);
+        update();
+        function deleted(itemIndex) {
+            if (confirm("Do you really want to delete this item?")) {
+                console.log("Delete", itemIndex);
+                itemJsonArrayStr = localStorage.getItem('itemsJson')
+                itemJsonArray = JSON.parse(itemJsonArrayStr);
+                // Delete itemIndex element from the array
+                itemJsonArray.splice(itemIndex, 1);
+                localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray));
+                update();
+            }
 
-        });
+        }
+
+        function clearing() {
+            if (confirm("Clear the whole list?")) {
+                localStorage.clear();
+                update();
+            }
+        }
 
 
     </script>
